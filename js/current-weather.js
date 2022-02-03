@@ -15,6 +15,32 @@ function setCurrentDate($el) {
   $el.textContent = formattedDate;
 }
 
+/**
+ * Detects if its night or morning
+ * @param {Date} sunsetTime sun set date
+ * @param {Date} sunriseTime sun rise date
+ * @returns returns night or morning depending on the current time
+ */
+function solarStatus(sunsetTime, sunriseTime) {
+  const currentHours = new Date().getHours();
+  const sunsetHours = sunsetTime.getHours();
+  const sunriseHours = sunriseTime.getHours();
+
+  if (currentHours > sunsetHours || currentHours < sunriseHours) {
+    return "night";
+  }
+  return "morning";
+}
+
+/**
+ * Change background
+ * @param {HTMLElement} $el element to change background
+ * @param {string} solarStatus could be night or morning
+ */
+function setBackground($el, solarStatus) {
+  $el.style.backgroundImage = `url(./images/${solarStatus}-drizzle.jpg)`;
+}
+
 function configCurrentWeather(weather) {
   // loader
   // date
@@ -31,6 +57,11 @@ function configCurrentWeather(weather) {
   setCurrentTemp($currentWatherTemp, temp);
 
   // background
+  const sunriseTime = new Date(weather.sys.sunrise * 1000);
+  const sunsetTime = new Date(weather.sys.sunset * 1000);
+
+  const $app = document.querySelector("#app");
+  setBackground($app, solarStatus(sunsetTime, sunriseTime));
 }
 
 export default function currentWeather() {
