@@ -6,12 +6,36 @@ function geolocationSupport() {
   return "geolocation" in navigator;
 }
 
-export function getCurrentPosition() {
+const defaultOptions = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 100_000,
+};
+
+export function getCurrentPosition(options = defaultOptions) {
   if (!geolocationSupport()) {
     throw new Error("There is not support for geolocation in your browser");
   }
-  navigator.geolocation.getCurrentPosition((position) => {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve(position);
+      },
+      () => {
+        reject(new Error("We couldnt get your location"));
+      },
+      options
+    );
   });
+}
+
+export async function getLatLon(options) {
+  try {
+    const {
+      coords: { latitude: lat, longitude: lon },
+    } = await getCurrentPosition(options);
+    return { lat, lon, isError: false };
+  } catch {
+    return { isError: true, lat: null, lon: null };
+  }
 }
