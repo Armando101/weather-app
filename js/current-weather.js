@@ -92,13 +92,11 @@ export default async function currentWeather() {
   if (isError) {
     return console.error("Hubo un error");
   }
-  console.log(lat, lon);
   const { isError: currentWeatherError, data: weather } = await getWeather(
     lat,
     lon
   );
 
   if (currentWeatherError) return console.error("Whoops somenthing went wrong");
-  console.log(weather);
   configCurrentWeather(weather);
 }
