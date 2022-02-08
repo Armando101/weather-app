@@ -1,5 +1,6 @@
 import { getLatLon } from "./geolocation.js";
 import { getWeather } from "./services/weather.js";
+import { formatWeekList } from "./utils/format-data.js";
 
 function configWeeklyWeather() {}
 
@@ -16,5 +17,7 @@ export async function weeklyWeather() {
   if (weeklyWeatherError) {
     return new Error("Error getting data");
   }
+  const weekList = formatWeekList(weather.list);
+  debugger;
   configWeeklyWeather();
 }

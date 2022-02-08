@@ -28,3 +28,17 @@ export function formatTemp(value) {
   const formatTem = Math.round(value);
   return `${formatTem}°`;
 }
+
+export function formatWeekList(rawData) {
+  let dayList = [];
+  const weekList = [];
+  rawData.forEach((item, index) => {
+    const isDivider = (index + 1) % 8 === 0;
+    dayList.push(item);
+    if (isDivider) {
+      weekList.push(dayList);
+      dayList = [];
+    }
+  });
+  return weekList;
+}
