@@ -22,6 +22,7 @@ function nextDay(day) {
 }
 
 $tabList.forEach(($tab, index) => {
+  $tab.addEventListener("click", handleSelectTabClick);
   if (index === 0) {
     $tab.textContent = "Hoy";
     weekday = nextDay(weekday);
@@ -30,3 +31,17 @@ $tabList.forEach(($tab, index) => {
   $tab.textContent = WEEK[weekday];
   weekday = nextDay(weekday);
 });
+
+function handleSelectTabClick(event) {
+  const $tabSelected = event.target;
+  const $tabActive = document.querySelector('.tab[aria-selected="true"]');
+  $tabActive.removeAttribute("aria-selected");
+  $tabSelected.setAttribute("aria-selected", true);
+
+  const id = $tabSelected.id;
+  const $tabPanel = document.querySelector(`[aria-labelledby=${id}]`);
+  const $tabPanelSelected = document.querySelector(`.tabPanel:not([hidden])`);
+  $tabPanel.hidden = false;
+  $tabPanelSelected.hidden = true;
+  // debugger;
+}
