@@ -1,6 +1,15 @@
 import { createDOM } from "../utils/dom.js";
 import { formatDate, formatTemp } from "../utils/format-data.js";
+/**
+ * A weather hour
+ * @typedef {{temp: string, date: string, icon: string, description: string}} IPeriodTimeTemplate
+ */
 
+/**
+ * Create a string to create a HTML Element
+ * @param {IPeriodTimeTemplate} dataObject Info to render pero hour
+ * @returns {string} HTML string
+ */
 function periodTimeTemplate({ temp, date, icon, description }) {
   return `
     <li class="dayWeather-item is-selected">
@@ -15,6 +24,11 @@ function periodTimeTemplate({ temp, date, icon, description }) {
     </li>`;
 }
 
+/**
+ * Creates an element to render the info about the weather per hour
+ * @param {any} weather weather data
+ * @returns {HTMLElement} Element to render in dom
+ */
 export function createPeriodTime(weather) {
   const dateFormat = {
     hour: "numeric",
