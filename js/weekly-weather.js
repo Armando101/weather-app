@@ -1,4 +1,5 @@
 import { getLatLon } from "./geolocation.js";
+import { createPeriodTime } from "./services/period-time.js";
 import { getWeather } from "./services/weather.js";
 import { createDOM } from "./utils/dom.js";
 import { formatWeekList } from "./utils/format-data.js";
@@ -8,7 +9,6 @@ function tabPanelTemplate(id) {
     <div class="tabPanel" tabindex="0" aria-labelledby="tab-${id}">
       <div class="dayWeather" id="dayWeather-${id}">
         <ul style="color:white" class="dayWeather-list" id="dayWeather-list-${id}">
-          Tab Panel  ${id}          
         </ul>
       </div>
     </div>
@@ -24,10 +24,15 @@ function createTabPanel(id) {
 }
 
 function configWeeklyWeather(weekList) {
-  const $container = document.querySelector(".weeklyWeather");
+  const $container = document.querySelector(".tabs");
   weekList.forEach((day, index) => {
     const $panel = createTabPanel(index);
     $container.append($panel);
+    day.forEach((weather, weatherIndex) => {
+      $panel
+        .querySelector(".dayWeather-list")
+        .append(createPeriodTime(weather));
+    });
   });
 }
 
@@ -45,6 +50,5 @@ export async function weeklyWeather() {
     return new Error("Error getting data");
   }
   const weekList = formatWeekList(weather.list);
-  debugger;
   configWeeklyWeather(weekList);
 }
