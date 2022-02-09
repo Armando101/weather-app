@@ -1,8 +1,15 @@
 import { getLatLon } from "./geolocation.js";
 import { getWeather } from "./services/weather.js";
+import { createDOM } from "./utils/dom.js";
 import { formatWeekList } from "./utils/format-data.js";
 
-function configWeeklyWeather() {}
+function configWeeklyWeather(weekList) {
+  const $container = document.querySelector(".weeklyWeather");
+  weekList.forEach((item) => {
+    const $el = createDOM("<h2>Hello world</h2>");
+    $container.append($el);
+  });
+}
 
 export async function weeklyWeather() {
   const { lat, lon, isError } = await getLatLon();
@@ -18,6 +25,5 @@ export async function weeklyWeather() {
     return new Error("Error getting data");
   }
   const weekList = formatWeekList(weather.list);
-  debugger;
-  configWeeklyWeather();
+  configWeeklyWeather(weekList);
 }
