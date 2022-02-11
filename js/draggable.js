@@ -1,5 +1,5 @@
 const defaultConfig = {
-  open: false,
+  open: true,
   debug: true,
   animatable: true,
 };
@@ -16,6 +16,7 @@ export function draggable($element, config = defaultConfig) {
   }
 
   let isOpen = config.open;
+  let isDragging = false;
   const elementRect = $element.getBoundingClientRect();
   const ELEMENT_BLOCK_SIZE = elementRect.height;
 
@@ -26,6 +27,44 @@ export function draggable($element, config = defaultConfig) {
   const VISIBLE_Y_POSITION = 0;
   const HIDDEN_Y_POSITION = ELEMENT_BLOCK_SIZE - MARKER_BLOCK_SIZE;
   let widgetPosition = VISIBLE_Y_POSITION;
+
+  $marker.addEventListener("click", handleClick);
+  $marker.addEventListener("pointerdown", handlePointerDown);
+  $marker.addEventListener("pointerout", handlePointerUp);
+  $marker.addEventListener("pointerout", handlePointerOut);
+  $marker.addEventListener("pointercancel", handlePointerCancel);
+  $marker.addEventListener("pointermove", handlePointerMove);
+
+  function handlePointerDown() {
+    logger("POINTER DOWN");
+  }
+  function handlePointerUp() {
+    logger("POINTER UP");
+  }
+  function handlePointerOut() {
+    logger("POINTER OUT");
+  }
+  function handlePointerCancel() {
+    logger("POINTER CANCEL");
+  }
+  function handlePointerMove() {
+    logger("POINTER MOVE");
+  }
+
+  function handleClick() {
+    logger("CLICK");
+    toggle();
+  }
+
+  function toggle() {
+    if (!isDragging) {
+      if (!isOpen) {
+        open();
+        return;
+      }
+      close();
+    }
+  }
 
   function logger(message) {
     if (config.debug) {
