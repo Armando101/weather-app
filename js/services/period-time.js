@@ -18,7 +18,8 @@ function periodTimeTemplate({ temp, date, icon, description }) {
         class="dayWeather-icon"
         src="https://openweathermap.org/img/wn/${icon}@2x.png"
         alt="${description}"
-        rain=""
+        height="48"
+        width="48"
       />
       <span class="dayWeather-temp">${temp}</span>
     </li>`;
