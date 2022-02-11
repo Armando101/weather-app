@@ -37,8 +37,8 @@ export function createPeriodTime(weather) {
   };
   const dateTime = new Date(weather.dt * 1000);
   const temp = formatTemp(weather.main.temp);
-  const date = formatDate(dateTime, dateFormat);
-
+  let date = formatDate(dateTime, dateFormat);
+  date = date.replace("0", "12");
   const config = {
     temp,
     date,

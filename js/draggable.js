@@ -52,33 +52,25 @@ export function draggable($element, config = defaultConfig) {
   }
 
   function dragEnd() {
-    logger("DRAG END");
     isDragging = false;
     bounce();
   }
 
   function handlePointerDown(event) {
-    logger("POINTER DOWN");
     startDrag(event);
   }
   function handlePointerUp() {
-    logger("POINTER UP");
     dragEnd();
   }
   function handlePointerOut() {
-    logger("POINTER OUT");
     dragEnd();
   }
-  function handlePointerCancel() {
-    logger("POINTER CANCEL");
-  }
+  function handlePointerCancel() {}
   function handlePointerMove(event) {
-    logger("POINTER MOVE");
     drag(event);
   }
 
   function handleClick() {
-    logger("CLICK");
     toggle();
   }
 
@@ -87,6 +79,9 @@ export function draggable($element, config = defaultConfig) {
     const movementY = cursorY - startY;
     widgetPosition = widgetPosition + movementY;
     startY = cursorY;
+
+    if (widgetPosition > HIDDEN_Y_POSITION) return false;
+
     setWidgetPosition(widgetPosition);
   }
 
@@ -116,14 +111,12 @@ export function draggable($element, config = defaultConfig) {
   }
 
   function open() {
-    logger("Abrir Widget");
     isOpen = true;
     widgetPosition = VISIBLE_Y_POSITION;
     setWidgetPosition(widgetPosition);
   }
 
   function close() {
-    logger("Cerrar Widget");
     isOpen = false;
     widgetPosition = HIDDEN_Y_POSITION;
     setWidgetPosition(widgetPosition);
