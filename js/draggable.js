@@ -17,6 +17,7 @@ export function draggable($element, config = defaultConfig) {
 
   let isOpen = config.open;
   let isDragging = false;
+  let startY = 0;
   const elementRect = $element.getBoundingClientRect();
   const ELEMENT_BLOCK_SIZE = elementRect.height;
 
@@ -35,8 +36,9 @@ export function draggable($element, config = defaultConfig) {
   $marker.addEventListener("pointercancel", handlePointerCancel);
   $marker.addEventListener("pointermove", handlePointerMove);
 
-  function handlePointerDown() {
+  function handlePointerDown(event) {
     logger("POINTER DOWN");
+    startDrag(event);
   }
   function handlePointerUp() {
     logger("POINTER UP");
@@ -47,13 +49,31 @@ export function draggable($element, config = defaultConfig) {
   function handlePointerCancel() {
     logger("POINTER CANCEL");
   }
-  function handlePointerMove() {
+  function handlePointerMove(event) {
     logger("POINTER MOVE");
+    drag(event);
   }
 
   function handleClick() {
     logger("CLICK");
     toggle();
+  }
+
+  function drag(event) {
+    const cursorY = pageY(event);
+    const movementY = cursorY - startY;
+    widgetPosition = widgetPosition + movementY;
+    startY = cursorY;
+    setWidgetPosition(widgetPosition);
+  }
+
+  function pageY(event) {
+    return event.pageY || event.touches[0].pageY;
+  }
+
+  function startDrag(event) {
+    isDragging = true;
+    startY = pageY(event);
   }
 
   function toggle() {
