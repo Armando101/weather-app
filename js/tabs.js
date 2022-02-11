@@ -43,5 +43,4 @@ function handleSelectTabClick(event) {
   const $tabPanelSelected = document.querySelector(`.tabPanel:not([hidden])`);
   $tabPanel.hidden = false;
   $tabPanelSelected.hidden = true;
-  // debugger;
 }

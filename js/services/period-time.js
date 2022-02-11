@@ -1,3 +1,4 @@
+import { handleClickDetails } from "../details.js";
 import { createDOM } from "../utils/dom.js";
 import { formatDate, formatTemp } from "../utils/format-data.js";
 /**
@@ -10,7 +11,7 @@ import { formatDate, formatTemp } from "../utils/format-data.js";
  * @param {IPeriodTimeTemplate} dataObject Info to render pero hour
  * @returns {string} HTML string
  */
-function periodTimeTemplate({ temp, date, icon, description, isSelected }) {
+function periodTimeTemplate({ temp, date, icon, description }) {
   return `
     <li class="dayWeather-item">
       <span class="dayWeather-time">${date}</span>
@@ -30,7 +31,7 @@ function periodTimeTemplate({ temp, date, icon, description, isSelected }) {
  * @param {any} weather weather data
  * @returns {HTMLElement} Element to render in dom
  */
-export function createPeriodTime(weather, weatherIndex) {
+export function createPeriodTime(weather) {
   const dateFormat = {
     hour: "numeric",
     hour12: true,
@@ -39,27 +40,16 @@ export function createPeriodTime(weather, weatherIndex) {
   const temp = formatTemp(weather.main.temp);
   let date = formatDate(dateTime, dateFormat);
   date = date.replace("0", "12");
-  const isSelected = weatherIndex === 0;
   const config = {
     temp,
     date,
     icon: weather.weather[0].icon,
     description: weather.weather[0].description,
-    isSelected,
   };
   const $element = createDOM(periodTimeTemplate(config));
 
-  $element.addEventListener("click", handleClick);
-
+  $element.addEventListener("click", (event) =>
+    handleClickDetails(event, weather)
+  );
   return $element;
-}
-
-function handleClick(event) {
-  const $container = event.currentTarget;
-  const currentSelected = document.querySelector(".is-selected");
-
-  currentSelected.removeAttribute("aria-selected");
-  currentSelected.classList.remove("is-selected");
-  $container.classList.add("is-selected");
-  $container.setAttribute("aria-selected", "true");
 }

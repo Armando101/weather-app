@@ -24,8 +24,11 @@ export function formatDate(date, config = defaultConfig) {
  * @param {number} value current temperature value raw
  * @returns string int number and celcius symbol
  */
-export function formatTemp(value) {
-  const formatTem = Math.round(value);
+export function formatTemp(value, round = true) {
+  let formatTem = value;
+  if (round) {
+    formatTem = Math.round(value);
+  }
   return `${formatTem}°`;
 }
 
@@ -41,4 +44,17 @@ export function formatWeekList(rawData) {
     }
   });
   return weekList;
+}
+
+export function formatSpeed(speed, convertKmH = true) {
+  let speedConverted = speed;
+  let speedFormated;
+
+  if (convertKmH) {
+    speedConverted = Math.round(speed * 3.6);
+    speedFormated = `${speedConverted} Km-h`;
+    return speedFormated;
+  }
+  speedFormated = `${speedConverted} m-s`;
+  return speedFormated;
 }

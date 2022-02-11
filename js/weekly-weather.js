@@ -1,3 +1,4 @@
+import { renderDetails } from "./details.js";
 import { draggable } from "./draggable.js";
 import { getLatLon } from "./geolocation.js";
 import { createPeriodTime } from "./services/period-time.js";
@@ -29,16 +30,17 @@ function configWeeklyWeather(weekList) {
   weekList.forEach((day, index) => {
     const $panel = createTabPanel(index);
     $container.append($panel);
-    day.forEach((weather, weatherIndex) => {
+    day.forEach((weather) => {
       $panel
         .querySelector(".dayWeather-list")
-        .append(createPeriodTime(weather, weatherIndex));
+        .append(createPeriodTime(weather));
     });
-    $panel.querySelector(".dayWeather-item").classList.add("is-selected");
-    $panel
-      .querySelector(".dayWeather-item")
-      .setAttribute("aria-selected", "true");
   });
+  $container.querySelector(".dayWeather-item").classList.add("is-selected");
+  $container
+    .querySelector(".dayWeather-item")
+    .setAttribute("aria-selected", "true");
+  renderDetails(weekList[0][0]);
 }
 
 export async function weeklyWeather() {
