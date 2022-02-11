@@ -4,6 +4,9 @@
   padding-block: 1rem;
   inline-size: 100vw;
   box-sizing: border-box;
+}
+
+.weeklyWeather-details div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
