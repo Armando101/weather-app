@@ -95,13 +95,11 @@ export function draggable($element, config = defaultConfig) {
   }
 
   function toggle() {
-    if (!isDragging) {
-      if (!isOpen) {
-        open();
-        return;
-      }
-      close();
+    if (!isOpen) {
+      open();
+      return;
     }
+    close();
   }
 
   function logger(message) {
