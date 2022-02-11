@@ -1,0 +1,18 @@
+.weeklyWeather-details {
+  color: var(--white);
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  inline-size: 100vw;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.weeklyWeather-details p {
+  margin: 0;
+}
+
+.weeklyWeather-details p span {
+  font-weight: bold;
+}
