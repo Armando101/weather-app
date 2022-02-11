@@ -32,8 +32,12 @@ function configWeeklyWeather(weekList) {
     day.forEach((weather, weatherIndex) => {
       $panel
         .querySelector(".dayWeather-list")
-        .append(createPeriodTime(weather));
+        .append(createPeriodTime(weather, weatherIndex));
     });
+    $panel.querySelector(".dayWeather-item").classList.add("is-selected");
+    $panel
+      .querySelector(".dayWeather-item")
+      .setAttribute("aria-selected", "true");
   });
 }
 

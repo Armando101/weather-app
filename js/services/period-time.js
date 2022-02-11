@@ -10,9 +10,9 @@ import { formatDate, formatTemp } from "../utils/format-data.js";
  * @param {IPeriodTimeTemplate} dataObject Info to render pero hour
  * @returns {string} HTML string
  */
-function periodTimeTemplate({ temp, date, icon, description }) {
+function periodTimeTemplate({ temp, date, icon, description, isSelected }) {
   return `
-    <li class="dayWeather-item is-selected">
+    <li class="dayWeather-item">
       <span class="dayWeather-time">${date}</span>
       <img
         class="dayWeather-icon"
@@ -30,7 +30,7 @@ function periodTimeTemplate({ temp, date, icon, description }) {
  * @param {any} weather weather data
  * @returns {HTMLElement} Element to render in dom
  */
-export function createPeriodTime(weather) {
+export function createPeriodTime(weather, weatherIndex) {
   const dateFormat = {
     hour: "numeric",
     hour12: true,
@@ -39,11 +39,27 @@ export function createPeriodTime(weather) {
   const temp = formatTemp(weather.main.temp);
   let date = formatDate(dateTime, dateFormat);
   date = date.replace("0", "12");
+  const isSelected = weatherIndex === 0;
   const config = {
     temp,
     date,
     icon: weather.weather[0].icon,
     description: weather.weather[0].description,
+    isSelected,
   };
-  return createDOM(periodTimeTemplate(config));
+  const $element = createDOM(periodTimeTemplate(config));
+
+  $element.addEventListener("click", handleClick);
+
+  return $element;
+}
+
+function handleClick(event) {
+  const $container = event.currentTarget;
+  const currentSelected = document.querySelector(".is-selected");
+
+  currentSelected.removeAttribute("aria-selected");
+  currentSelected.classList.remove("is-selected");
+  $container.classList.add("is-selected");
+  $container.setAttribute("aria-selected", "true");
 }
